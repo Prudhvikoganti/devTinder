@@ -2,14 +2,67 @@ const express = require('express')
 
 const app = express()
 
-app.get('/', (req, res) => (
-    res.send('Hello World!')
+const {adminAuth, userAuth} = require('./middlewares/auth')
+
+// app.use('/admin', (req, res, next) => {
+//     console.log('Admin middleware')
+//     const token = 'xyz'
+//     const isAdmin = token === 'xyz'
+//     if(isAdmin) {
+//         next()
+//     } else {
+//         res.status(401).send('Unauthorized')
+//     }
+// })
+
+app.get('/admin', adminAuth, (req, res) => (
+    res.send('Admin')
 ))
 
-app.get('/users/:userId/:name', (req, res) => (
-    console.log(req.params),
-    res.send('This is the users page')
+app.get('/user', userAuth, (req, res) => (
+    res.send('User page')
 ))
+
+app.get('/user/login', (req, res) => (
+    res.send('Login page')
+))
+
+// app.use('/user', (req, res, next) => {
+//     console.log('User middleware')
+//     const token = 'xyz'
+//     const isAdmin = token === 'xyz'
+//     if(isAdmin) {
+//         next()
+//     } else {
+//         res.status(401).send('Unauthorized')
+//     }
+// })
+
+
+//middleware
+// app.use('/users', (req, res, next) => {
+//     console.log('request handler 1'),
+//     next()
+    
+// }, [(req, res, next) => {
+//     console.log('request handler 2')
+//     next()
+// }, (req, res, next) => {
+//     console.log('request handler 3')
+//     next()
+// }], (req, res) => {
+//     res.send('This is the users page')
+// })
+
+//Type 2
+// app.use('/users', (req, res, next) => {
+//     console.log('request handler 1'),
+//     next()
+// })
+
+// app.use('/users', (req, res) => {
+//     res.send('This is the users page')
+// })
 
 //Query 
 // app.get('/users', (req, res) => (
